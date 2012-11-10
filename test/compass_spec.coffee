@@ -74,8 +74,8 @@ describe 'Compass', ->
         calledWith('deviceorientation', Compass._watchers[id])
 
       callback.should.not.have.been.called
-      Compass._watchers[id]({ alpha: 20 })
-      callback.should.have.been.calledWith(30)
+      Compass._watchers[id]({ alpha: 90 })
+      callback.should.have.been.calledWith(280)
 
   describe '.unwatch()', ->
 
@@ -299,5 +299,5 @@ describe 'Compass', ->
 
       orientation(alpha: 10)
       geolocation(coords: { speed: 2, heading: 0 })
-      Compass._gpsDiff.should.eql(-10)
+      Compass._gpsDiff.should.eql(10)
       Compass._start.should.have.been.calledWith('orientationAndGPS')

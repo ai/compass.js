@@ -15,14 +15,24 @@ mocha =
               <title>Compass.js Tests</title>
               <style>#style#</style>
               <script>#script#</script>
-              <script src="/compass.js"></script>
+              <script src="/lib/compass.js"></script>
               <script>#tests#</script>
               <style>
                 body {
                   padding: 0;
                 }
+                #integration {
+                  position: absolute;
+                  top: 1.45em;
+                  margin-left: 120px;
+                  font-weight: 200;
+                  font-size: 0.7em;
+                }
               </style>
             <body>
+              <a href="/integration" id="integration" target="_blank">
+                see also integration test →
+              </a>
               <div id="mocha"></div>
               <script>
                 document.body.onload = function() {
@@ -82,7 +92,7 @@ task 'test', 'Run specs server', ->
     if req.url == '/'
       res.writeHead 200, { 'Content-Type': 'text/html' }
       res.write mocha.html()
-    else if req.url == '/compass.js'
+    else if req.url == '/lib/compass.js'
       res.writeHead 200, { 'Content-Type': 'text/javascript' }
       res.write mocha.lib()
     else if req.url == '/integration'

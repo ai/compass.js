@@ -4,7 +4,88 @@
     <meta charset='UTF-8'>
     <title>Compass.js Integration Test</title>
     <script src="../lib/compass.js"></script>
+    <style>
+      #text {
+        margin-top: 100px;
+        text-align: center;
+      }
+      #compass {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        margin: 20px auto 0 auto;
+        border: 1px solid #ccc;
+        border-radius: 100px;
+      }
+      .north, .south {
+        position: absolute;
+        left: 94px;
+        width: 12px;
+        height: 100px;
+      }
+      .north {
+        top: 0;
+        background: red;
+        text-align: center;
+        font-size: 11px;
+      }
+      .south {
+        top: 100px;
+        background: black;
+      }
+      #meta {
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
+    <div id="text">initializing</div>
+    <div id="compass">
+      <div class="north">N</div>
+      <div class="south"></div>
+    </div>
+    <div id="meta"></div>
+    <script>
+      var byId = function (id) {
+        return document.getElementById(id);
+      };
+      var text = function (id, value) {
+        byId(id).innerHTML = value;
+      };
+      var transform = function (id, commands) {
+        var props = ['transform', 'webkitTransform', 'mozTransform',
+                     'msTransform', 'oTransform'];
+        var node  = byId(id);
+        for (var i = 0; i < props.length; i ++) {
+          if ( typeof(node.style[props[i]]) != 'undefined' ) {
+            node.style[props[i]] = commands;
+            break;
+          }
+        }
+      };
+      var round = function (value) {
+        return Math.round(value * 100) / 100;
+      };
+
+      Compass.noSupport(function () {
+        text('text', 'no support');
+      });
+      Compass.needGPS(function () {
+        text('text', 'need GPS');
+      });
+      Compass.needMove(function () {
+        text('text', 'need move');
+      });
+      Compass.init(function (method) {
+        if ( method == 'orientationAndGPS' ) {
+          text('meta', 'GPS diff: ' + round(Compass._gpsDiff));
+        }
+      });
+      Compass.watch(function (heading) {
+        text('text', round(heading));
+        transform('compass', 'rotate(' + (-heading) + 'deg)');
+      });
+    </script>
   </body>
 </html>
