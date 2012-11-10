@@ -3,12 +3,86 @@ describe 'Compass', ->
   beforeEach ->
     Compass.method     = undefined
     Compass._initing   = false
+    Compass._watchers  = { }
     Compass._nav       = { }
     Compass._win       =
       addEventListener:    sinon.spy()
       removeEventListener: sinon.spy()
     Compass._callbacks[i] = [] for i of Compass._callbacks
     Compass[i]?.restore?() for i of Compass
+
+  describe '.watch()', ->
+
+    it 'should use init()', ->
+      Compass._initing = true
+      Compass._nav.compass = { watchHeading: sinon.spy() }
+      sinon.spy(Compass, 'init')
+
+      Compass.watch( -> )
+
+      Compass.init.should.have.been.called
+      Compass._nav.compass.watchHeading.should.not.have.been.called
+
+      Compass._start('phonegap')
+      Compass._nav.compass.watchHeading.should.have.been.called
+
+    it 'should generate new watcher ID', ->
+      id1 = Compass.watch( -> )
+      id2 = Compass.watch( -> )
+
+      id1.should.not.eql(id2)
+
+    it 'should watch for phonegap compass', ->
+      Compass.method = 'phonegap'
+      Compass._nav.compass = { watchHeading: sinon.stub().returns(3) }
+      callback = ->
+
+      id = Compass.watch(callback)
+
+      Compass._nav.compass.watchHeading.should.have.been.calledWith(callback)
+      Compass._watchers[id].should.eql(3)
+
+    it 'should watch for webkitOrientation compass', ->
+      Compass.method = 'webkitOrientation'
+      callback = sinon.spy()
+
+      id = Compass.watch(callback)
+
+      Compass._watchers[id].should.be.a('function')
+      Compass._win.addEventListener.should.have.been.
+        calledWith('deviceorientation', Compass._watchers[id])
+
+      callback.should.not.have.been.called
+      Compass._watchers[id]({ webkitCompassHeading: 90 })
+      callback.should.have.been.calledWith(90)
+
+  describe '.unwatch()', ->
+
+    it 'should delete watcher', ->
+      Compass.method = 'supermethod'
+      Compass._watchers[1] = 2
+
+      Compass.unwatch(1)
+      Compass._watchers.should.eql({ })
+
+    it 'should remove phonegap watcher', ->
+      Compass.method = 'phonegap'
+      Compass._nav.compass = { clearWatch: sinon.spy() }
+      Compass._watchers[1] = 3
+
+      Compass.unwatch(1)
+
+      Compass._nav.compass.clearWatch.should.have.been.calledWith(3)
+
+    it 'should remove webkitOrientation watcher', ->
+      Compass.method = 'webkitOrientation'
+      callback = ->
+      Compass._watchers[1] = callback
+
+      Compass.unwatch(1)
+
+      Compass._win.removeEventListener.should.have.been.
+        calledWith('deviceorientation', callback)
 
   describe '.noSupport()', ->
 
