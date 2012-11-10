@@ -10,7 +10,7 @@ describe 'Compass', ->
     Compass._callbacks[i] = [] for i of Compass._callbacks
     Compass[i]?.restore?() for i of Compass
 
-  describe '.nosupport()', ->
+  describe '.noSupport()', ->
 
     callback = null
 
@@ -18,21 +18,21 @@ describe 'Compass', ->
       callback = sinon.spy()
 
     it 'should save callback if method is not still detected', ->
-      Compass.nosupport(callback)
+      Compass.noSupport(callback)
       callback.should.not.have.been.called
-      Compass._callbacks.nosupport.should.be.eql([callback])
+      Compass._callbacks.noSupport.should.be.eql([callback])
 
     it 'execute callback if we detect, that there is no support', ->
       Compass.method = false
-      Compass.nosupport(callback)
+      Compass.noSupport(callback)
       callback.should.have.been.called
-      Compass._callbacks.nosupport.should.be.empty
+      Compass._callbacks.noSupport.should.be.empty
 
     it 'should forget callback if we can get compass', ->
       Compass.method = 'supermethod'
-      Compass.nosupport(callback)
+      Compass.noSupport(callback)
       callback.should.not.have.been.called
-      Compass._callbacks.nosupport.should.be.empty
+      Compass._callbacks.noSupport.should.be.empty
 
   describe '.init()', ->
 
@@ -110,7 +110,7 @@ describe 'Compass', ->
       callback2 = sinon.spy()
       callback3 = sinon.spy()
       Compass._callbacks.init      = [callback1, callback2]
-      Compass._callbacks.nosupport = [callback3]
+      Compass._callbacks.noSupport = [callback3]
 
       Compass._start('supermethod')
 
@@ -119,15 +119,15 @@ describe 'Compass', ->
       Compass._callbacks.init.should.be.empty
 
       callback3.should.not.have.been.called
-      Compass._callbacks.nosupport.should.be.empty
+      Compass._callbacks.noSupport.should.be.empty
 
-    it 'should execute nosupport callbacks if there is no method', ->
+    it 'should execute noSupport callbacks if there is no method', ->
       callback1 = sinon.spy()
       callback2 = sinon.spy()
-      Compass._callbacks.nosupport = [callback1, callback2]
+      Compass._callbacks.noSupport = [callback1, callback2]
 
       Compass._start(false)
 
       callback1.should.have.been.called
       callback2.should.have.been.called
-      Compass._callbacks.nosupport.should.be.empty
+      Compass._callbacks.noSupport.should.be.empty
