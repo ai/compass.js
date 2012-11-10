@@ -65,6 +65,7 @@ mocha =
     fs.readFileSync('node_modules/sinon/lib/sinon.js') +
     fs.readFileSync('node_modules/sinon/lib/sinon/spy.js') +
     fs.readFileSync('node_modules/sinon/lib/sinon/stub.js') +
+    fs.readFileSync('node_modules/sinon/lib/sinon/match.js') +
     fs.readFileSync('node_modules/sinon-chai/lib/sinon-chai.js')
 
   lib: ->

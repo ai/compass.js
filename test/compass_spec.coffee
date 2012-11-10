@@ -1,13 +1,19 @@
 describe 'Compass', ->
 
   beforeEach ->
-    Compass.method     = undefined
-    Compass._initing   = false
-    Compass._watchers  = { }
-    Compass._nav       = { }
-    Compass._win       =
+    Compass.method    = undefined
+    Compass._initing  = false
+    Compass._watchers = { }
+    Compass._gpsDiff  = undefined
+
+    Compass._win =
       addEventListener:    sinon.spy()
       removeEventListener: sinon.spy()
+    Compass._nav =
+      geolocation:
+        watchPosition: sinon.spy()
+        clearWatch:    sinon.spy()
+
     Compass._callbacks[i] = [] for i of Compass._callbacks
     Compass[i]?.restore?() for i of Compass
 
@@ -56,6 +62,21 @@ describe 'Compass', ->
       Compass._watchers[id]({ webkitCompassHeading: 90 })
       callback.should.have.been.calledWith(90)
 
+    it 'should watch for orientationAndGPS compass', ->
+      Compass.method   = 'orientationAndGPS'
+      Compass._gpsDiff = 10
+      callback = sinon.spy()
+
+      id = Compass.watch(callback)
+
+      Compass._watchers[id].should.be.a('function')
+      Compass._win.addEventListener.should.have.been.
+        calledWith('deviceorientation', Compass._watchers[id])
+
+      callback.should.not.have.been.called
+      Compass._watchers[id]({ alpha: 20 })
+      callback.should.have.been.calledWith(30)
+
   describe '.unwatch()', ->
 
     it 'should delete watcher', ->
@@ -76,6 +97,16 @@ describe 'Compass', ->
 
     it 'should remove webkitOrientation watcher', ->
       Compass.method = 'webkitOrientation'
+      callback = ->
+      Compass._watchers[1] = callback
+
+      Compass.unwatch(1)
+
+      Compass._win.removeEventListener.should.have.been.
+        calledWith('deviceorientation', callback)
+
+    it 'should remove orientationAndGPS watcher', ->
+      Compass.method = 'orientationAndGPS'
       callback = ->
       Compass._watchers[1] = callback
 
@@ -165,10 +196,20 @@ describe 'Compass', ->
       Compass._win.addEventListener.should.have.been.
         calledWith('deviceorientation', Compass._checkEvent)
 
-      Compass._checkEvent({ })
+      Compass._checkEvent({ alpha: null })
       Compass._start.should.have.been.calledWith(false)
       Compass._win.removeEventListener.should.have.been.
         calledWith('deviceorientation', Compass._checkEvent)
+
+    it 'should start GPS hack with orientation and geolocation', ->
+      Compass._win.DeviceOrientationEvent = ->
+      sinon.stub(Compass, '_gpsHack');
+
+      Compass.init(callback)
+
+      Compass._checkEvent({ alpha: 10 })
+      Compass._start.should.have.not.been.calledWith(false)
+      Compass._gpsHack.should.have.been.called
 
   describe '._start()', ->
 
@@ -205,3 +246,58 @@ describe 'Compass', ->
       callback1.should.have.been.called
       callback2.should.have.been.called
       Compass._callbacks.noSupport.should.be.empty
+
+  describe '._gpsHack()', ->
+
+    it 'should detect no support on geolocation error', ->
+      Compass._nav.geolocation.watchPosition = (success, error) -> error()
+      sinon.stub(Compass, '_start')
+
+      Compass._gpsHack()
+
+      Compass._start.should.have.been.calledWith(false)
+      Compass._win.removeEventListener.should.have.been.called
+
+    it 'should detect _gpsDiff', ->
+      geolocation = null
+      orientation = null
+
+      Compass._nav.geolocation.watchPosition = (c) -> geolocation = c
+      sinon.spy(Compass._nav.geolocation, 'watchPosition')
+
+      Compass._win.addEventListener = (n, c) -> orientation = c
+      sinon.spy(Compass._win, 'addEventListener')
+
+      needGPS  = sinon.spy()
+      needMove = sinon.spy()
+      Compass.needGPS(needGPS)
+      Compass.needMove(needMove)
+      sinon.stub(Compass, '_start')
+
+      Compass._gpsHack()
+
+      orientation.should.be.a('function')
+      Compass._win.addEventListener.should.have.been.
+        calledWith('deviceorientation', orientation)
+
+      geolocation.should.be.a('function')
+      Compass._nav.geolocation.watchPosition.should.have.been.
+        calledWith(geolocation, sinon.match.func, { enableHighAccuracy: true })
+
+      needGPS.should.have.been.called
+      needMove.should.not.have.been.called
+
+      geolocation(coords: { speed: null, heading: null })
+      needMove.should.not.have.been.called
+
+      geolocation(coords: { speed: 0, heading: 0 })
+      needMove.should.have.been.called
+
+      geolocation(coords: { speed: 2, heading: 0 })
+      needMove.should.have.been.calledOnce
+      Compass._start.should.not.have.been.called
+
+      orientation(alpha: 10)
+      geolocation(coords: { speed: 2, heading: 0 })
+      Compass._gpsDiff.should.eql(-10)
+      Compass._start.should.have.been.calledWith('orientationAndGPS')
