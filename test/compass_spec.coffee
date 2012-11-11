@@ -5,6 +5,7 @@ describe 'Compass', ->
     Compass._initing  = false
     Compass._watchers = { }
     Compass._gpsDiff  = undefined
+    Compass._checked  = undefined
 
     Compass._win =
       addEventListener:    sinon.spy()
@@ -211,6 +212,7 @@ describe 'Compass', ->
         calledWith('deviceorientation', Compass._checkEvent)
 
     it 'should start GPS hack with orientation and geolocation', ->
+      @clock = sinon.useFakeTimers()
       Compass._win.DeviceOrientationEvent = ->
       sinon.stub(Compass, '_gpsHack');
 
@@ -219,6 +221,9 @@ describe 'Compass', ->
       Compass._checkEvent({ alpha: 10 })
       Compass._start.should.have.not.been.calledWith(false)
       Compass._gpsHack.should.have.been.called
+
+      @clock.tick(200)
+      Compass._start.should.have.not.been.called
 
     it 'should have timeout for orientation event', ->
       @clock = sinon.useFakeTimers()
