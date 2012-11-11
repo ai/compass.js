@@ -70,19 +70,15 @@
 
       Compass.noSupport(function () {
         text('text', 'no support');
-      });
-      Compass.needGPS(function () {
+      }).needGPS(function () {
         text('text', 'need GPS');
-      });
-      Compass.needMove(function () {
+      }).needMove(function () {
         text('text', 'need move');
-      });
-      Compass.init(function (method) {
+      }).init(function (method) {
         if ( method == 'orientationAndGPS' ) {
           text('meta', 'GPS diff: ' + round(Compass._gpsDiff));
         }
-      });
-      Compass.watch(function (heading) {
+      }).watch(function (heading) {
         text('text', round(heading));
         transform('compass', 'rotate(' + (-heading) + 'deg)');
       });

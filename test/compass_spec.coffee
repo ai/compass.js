@@ -118,6 +118,9 @@ describe 'Compass', ->
       Compass._win.removeEventListener.should.have.been.
         calledWith('deviceorientation', callback)
 
+    it 'should return Compass', ->
+      Compass.unwatch(1).should.eql(Compass)
+
   describe '.noSupport()', ->
 
     callback = null
@@ -141,6 +144,9 @@ describe 'Compass', ->
       Compass.noSupport(callback)
       callback.should.not.have.been.called
       Compass._callbacks.noSupport.should.be.empty
+
+    it 'should return Compass', ->
+      Compass.noSupport( -> ).should.eql(Compass)
 
   describe '.init()', ->
 
@@ -224,6 +230,9 @@ describe 'Compass', ->
       @clock.tick(200)
       Compass._start.should.have.been.calledWith(false)
 
+    it 'should return Compass', ->
+      Compass.init( -> ).should.eql(Compass)
+
   describe '._start()', ->
 
     it 'should set state variables', ->
@@ -283,8 +292,8 @@ describe 'Compass', ->
 
       needGPS  = sinon.spy()
       needMove = sinon.spy()
-      Compass.needGPS(needGPS)
-      Compass.needMove(needMove)
+      Compass.needGPS(needGPS).should.eql(Compass)
+      Compass.needMove(needMove).should.eql(Compass)
       sinon.stub(Compass, '_start')
 
       Compass._gpsHack()
