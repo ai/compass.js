@@ -326,7 +326,8 @@ describe 'Compass', ->
 
       orientation(alpha: 10)
       geolocation(coords: { speed: 2, heading: 0 })
-      Compass._start.should.not.have.been.calledWith('orientationAndGPS')
+      Compass._start.should.have.been.calledWith('orientationAndGPS')
+      Compass._gpsDiff.should.eql(10)
 
       geolocation(coords: { speed: 0, heading: 0 })
 
@@ -338,8 +339,9 @@ describe 'Compass', ->
       geolocation(coords: { speed: 2, heading: 0 })
       geolocation(coords: { speed: 2, heading: 5 })
       geolocation(coords: { speed: 2, heading: 10 })
-      Compass._start.should.not.have.been.calledWith('orientationAndGPS')
+      Compass._nav.geolocation.clearWatch.should.not.have.been.called
+      Compass._gpsDiff.should.eql(18.75)
 
       geolocation(coords: { speed: 2, heading: 10 })
-      Compass._start.should.have.been.calledWith('orientationAndGPS')
+      Compass._nav.geolocation.clearWatch.should.have.been.called
       Compass._gpsDiff.should.eql(20)
