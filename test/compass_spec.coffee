@@ -17,6 +17,9 @@ describe 'Compass', ->
     Compass._callbacks[i] = [] for i of Compass._callbacks
     Compass[i]?.restore?() for i of Compass
 
+  afterEach ->
+    @clock?.restore()
+
   describe '.watch()', ->
 
     it 'should use init()', ->
@@ -210,6 +213,16 @@ describe 'Compass', ->
       Compass._checkEvent({ alpha: 10 })
       Compass._start.should.have.not.been.calledWith(false)
       Compass._gpsHack.should.have.been.called
+
+    it 'should have timeout for orientation event', ->
+      @clock = sinon.useFakeTimers()
+
+      Compass._win.DeviceOrientationEvent = ->
+      Compass.init(callback)
+      Compass._start.should.not.have.been.calledWith(false)
+
+      @clock.tick(200)
+      Compass._start.should.have.been.calledWith(false)
 
   describe '._start()', ->
 
