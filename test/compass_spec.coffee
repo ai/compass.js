@@ -222,7 +222,7 @@ describe 'Compass', ->
       Compass._start.should.have.not.been.calledWith(false)
       Compass._gpsHack.should.have.been.called
 
-      @clock.tick(200)
+      @clock.tick(1000)
       Compass._start.should.have.not.been.called
 
     it 'should have timeout for orientation event', ->
@@ -232,7 +232,7 @@ describe 'Compass', ->
       Compass.init(callback)
       Compass._start.should.not.have.been.calledWith(false)
 
-      @clock.tick(200)
+      @clock.tick(1000)
       Compass._start.should.have.been.calledWith(false)
 
     it 'should return Compass', ->

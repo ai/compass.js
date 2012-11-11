@@ -88,7 +88,7 @@ mocha =
     src = files.reduce ( (all, i) -> all + fs.readFileSync(i) ), ''
     coffee.compile(src)
 
-task 'test', 'Run specs server', ->
+task 'test', 'Run test server', ->
   server = http.createServer (req, res) ->
     if req.url == '/'
       res.writeHead 200, { 'Content-Type': 'text/html' }
@@ -105,6 +105,25 @@ task 'test', 'Run specs server', ->
     res.end()
   server.listen 8000
   console.log('Open http://localhost:8000/')
+
+task 'run', 'Run tests in node', ->
+  files   = 'test/mocha.js lib/compass.js test/compass_spec.coffee'
+  options =
+    ui:         'bdd'
+    reporter:   'spec'
+    compilers:  'coffee:coffee-script'
+    ignoreLeaks: true
+    colors:      true
+
+  command = 'node_modules/.bin/mocha '
+  for name, value of options
+    name = name.replace /[A-Z]/, (letter) -> '-' + letter.toLowerCase()
+    command += "--#{name} " + if value == true then '' else " #{value} "
+  command += files
+  exec command, (error, stdout, stderr) ->
+    console.log(stdout)   if stdout?
+    console.error(stderr) if stderr?
+    process.exit(1)       if error
 
 task 'clean', 'Remove all generated files', ->
   fs.removeSync('build/') if path.existsSync('build/')
