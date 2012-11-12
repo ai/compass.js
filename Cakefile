@@ -88,7 +88,7 @@ mocha =
     src = files.reduce ( (all, i) -> all + fs.readFileSync(i) ), ''
     coffee.compile(src)
 
-task 'test', 'Run test server', ->
+task 'server', 'Run test server', ->
   server = http.createServer (req, res) ->
     if req.url == '/'
       res.writeHead 200, { 'Content-Type': 'text/html' }
@@ -106,7 +106,7 @@ task 'test', 'Run test server', ->
   server.listen 8000
   console.log('Open http://localhost:8000/')
 
-task 'run', 'Run tests in node', ->
+task 'test', 'Run tests in node', ->
   files   = 'test/mocha.js lib/compass.js test/compass_spec.coffee'
   options =
     ui:         'bdd'
