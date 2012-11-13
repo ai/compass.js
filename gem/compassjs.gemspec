@@ -7,8 +7,9 @@ Gem::Specification.new do |s|
   s.authors     = ['Andrey "A.I." Sitnik']
   s.email       = ['andrey@sitnik.ru']
   s.homepage    = 'https://github.com/ai/compass.js'
-  s.summary     = ''
-  s.description = ''
+  s.summary     = 'Compass.js allow you to get compass heading in JavaScript'
+  s.description = 'Compass.js allow you to get compass heading in JavaScript ' +
+                  'by PhoneGap, iOS API or GPS hack.'
 
   s.add_dependency 'sprockets', '>= 2'
 
