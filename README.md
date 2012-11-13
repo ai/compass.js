@@ -19,7 +19,7 @@ Sponsored by [Evil Martians].
 [Safari add]:    http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html
 [Evil Martians]: http://evilmartians.com/
 
-## Quick Start
+## Usage
 
 Simple way to use library is:
 
@@ -30,7 +30,7 @@ Compass.watch(function (heading) {
 });
 ```
 
-## Messages
+### Messages
 
 If you develop not just for iTunes or Google Play with PhoneGap,
 you need to think about desktop browsers and GPS hack.
@@ -66,7 +66,7 @@ Compass.init(function () {
 });
 ```
 
-## Compass Method
+### Compass Method
 
 Library will detect method asyncronly, so you can’t just check
 `Compass.method`, because it can be empty yet. It will be better to
@@ -80,7 +80,7 @@ Compass.init(function (method) {
 
 Callback will be execute also if library is already initialized.
 
-## Unwatch
+### Unwatch
 
 You can remove compass listener by `Compass.unwatch` method:
 
