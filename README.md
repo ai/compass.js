@@ -13,6 +13,10 @@ but there are two proprietary APIs and one hack:
 This library hide all this magic and APIs from you, autodetect available
 way and provide clean and simple API for your geolocation web app.
 
+Sponsored by [Evil Martians].
+
+[Evil Martians]: http://evilmartians.com/
+
 ## Quick Start
 
 Simple way to use library is:
