@@ -21,23 +21,8 @@ Sponsored by [Evil Martians].
 
 ## Usage
 
-Simple way to use library is:
 
-```js
-Compass.watch(function (heading) {
-  $('.degrees').text(heading);
-  $('.compass').css({ transform: 'rotate(' + (-heading) + 'deg)' });
-});
-```
-
-### Messages
-
-If you develop not just for iTunes or Google Play with PhoneGap,
-you need to think about desktop browsers and GPS hack.
-
-You must add this event listeners **before** `Compass.watch`.
-
-For desktop users (without GPS and accelerometers) we hide compass:
+Hide compass for desktop users (without compass, GPS and accelerometers):
 
 ```js
 Compass.noSupport(function () {
@@ -45,24 +30,28 @@ Compass.noSupport(function () {
 });
 ```
 
-For Android users (and another devices, where we will use GPS hack)
-we need to show help instructions:
+Show instructions for Android users:
 
 ```js
-// Step 1. We need to good GPS signal.
 Compass.needGPS(function () {
+  // Step 1: we need to good GPS signal
   $('.go-outside-message').show();
-});
-
-// Step 2. User must go forward.
-Compass.needMove(function () {
+}).needMove(function () {
   $('.go-outside-message').hide()
+  // Step 2: user must go forward
   $('.move-and-hold-ahead-message').show();
-});
-
-// GPS hack is enabled. Hide all messages.
-Compass.init(function () {
+}).init(function () {
+  // GPS hack is enabled
   $('.move-and-hold-ahead-message').hide();
+});
+```
+
+Add compass heading listener:
+
+```js
+Compass.watch(function (heading) {
+  $('.degrees').text(heading);
+  $('.compass').css({ transform: 'rotate(' + (-heading) + 'deg)' });
 });
 ```
 
