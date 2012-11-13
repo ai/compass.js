@@ -3,8 +3,8 @@
 Compass.js allow you to get compass heading in JavaScript.
 Today there we haven’t any standard way to get compass data,
 but there are two proprietary APIs and one hack:
-* PhoneGap have `navigator.compass` API.
-* iOS Safari add `webkitCompassHeading` property to `deviceorientation` event.
+* [PhoneGap have] `navigator.compass` API.
+* iOS [Safari add] `webkitCompassHeading` property to `deviceorientation` event.
 * We can enable GPS and ask user to go forward. GPS will send current heading,
   so we can calculate difference between real North and zero in
   `deviceorientation` event. Next we use this difference to get compass heading
@@ -15,6 +15,8 @@ way and provide clean and simple API for your geolocation web app.
 
 Sponsored by [Evil Martians].
 
+[PhoneGap have]: http://docs.phonegap.com/phonegap_compass_compass.md.html
+[Safari add]:    http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html
 [Evil Martians]: http://evilmartians.com/
 
 ## Quick Start
