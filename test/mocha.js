@@ -1,9 +1,9 @@
-window    = global
-navigator = { }
+window    = global;
+navigator = { };
 
-sinon = require('sinon')
+sinon = require('sinon');
 
-chai      = require('chai')
-sinonChai = require('sinon-chai')
-chai.should()
-chai.use(sinonChai)
+chai      = require('chai');
+sinonChai = require('sinon-chai');
+chai.should();
+chai.use(sinonChai);
