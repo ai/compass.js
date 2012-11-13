@@ -66,9 +66,9 @@ Compass.init(function () {
 });
 ```
 
-### Compass Method
+### Method Name
 
-Library will detect method asyncronly, so you can’t just check
+Library will detect method asynchronously, so you can’t just check
 `Compass.method`, because it can be empty yet. It will be better to
 use `Compass.init` method:
 
