@@ -1,17 +1,17 @@
 # Compass.js
 
-Compass.js allow you to get compass heading in JavaScript.
-Today there we haven’t any standard way to get compass data,
+Compass.js allows you to get compass heading in JavaScript.
+Today we haven’t any standard way to get compass data,
 but there are two proprietary APIs and one hack:
-* [PhoneGap have] `navigator.compass` API.
-* iOS [Safari add] `webkitCompassHeading` property to `deviceorientation` event.
+* [PhoneGap has] `navigator.compass` API.
+* iOS [Safari adds] `webkitCompassHeading` property to `deviceorientation` event.
 * We can enable GPS and ask user to go forward. GPS will send current heading,
   so we can calculate difference between real North and zero in
   `deviceorientation` event. Next we use this difference to get compass heading
   only by device orientation.
 
-This library hide all this magic and APIs from you, autodetect available
-way and provide clean and simple API for your geolocation web app.
+This library hides all this magic and APIs from you, autodetects available
+way and provides clean and simple API for your geolocation web app.
 
 Sponsored by [Evil Martians].
 
@@ -34,15 +34,12 @@ Show instructions for Android users:
 
 ```js
 Compass.needGPS(function () {
-  // Step 1: we need to good GPS signal
-  $('.go-outside-message').show();
+  $('.go-outside-message').show();          // Step 1: we need GPS signal
 }).needMove(function () {
   $('.go-outside-message').hide()
-  // Step 2: user must go forward
-  $('.move-and-hold-ahead-message').show();
+  $('.move-and-hold-ahead-message').show(); // Step 2: user must go forward
 }).init(function () {
-  // GPS hack is enabled
-  $('.move-and-hold-ahead-message').hide();
+  $('.move-and-hold-ahead-message').hide(); // GPS hack is enabled
 });
 ```
 
@@ -57,7 +54,7 @@ Compass.watch(function (heading) {
 
 ### Method Name
 
-Library will detect method asynchronously, so you can’t just check
+Library will detect method asynchronously, so you can’t just read
 `Compass.method`, because it can be empty yet. It will be better to
 use `Compass.init` method:
 
@@ -67,7 +64,8 @@ Compass.init(function (method) {
 });
 ```
 
-Callback will be execute also if library is already initialized.
+If library is already initialized, callback will be executed instantly,
+without reinitialization.
 
 ### Unwatch
 
