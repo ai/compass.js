@@ -15,8 +15,8 @@ way and provides clean and simple API for your geolocation web app.
 
 Sponsored by [Evil Martians].
 
-[PhoneGap have]: http://docs.phonegap.com/phonegap_compass_compass.md.html
-[Safari add]:    http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html
+[PhoneGap has]: http://docs.phonegap.com/phonegap_compass_compass.md.html
+[Safari adds]:    http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html
 [Evil Martians]: http://evilmartians.com/
 
 ## Usage
