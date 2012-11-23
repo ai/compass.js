@@ -1,0 +1,40 @@
+# encoding: utf-8
+
+require 'pathname'
+GEN  = Pathname(__FILE__).dirname
+ROOT = GEN.parent
+
+require 'uglifier'
+require 'sprockets'
+require 'slim'
+require 'compass'
+require 'coffee_script'
+
+require 'redcarpet'
+require 'albino'
+
+class HTMLwithAlbino < Redcarpet::Render::HTML
+  def block_code(code, language)
+    Albino.colorize(code, language)
+  end
+end
+
+def build
+  `git checkout master -- ../README.md`
+  file     = ROOT.join('README.md')
+  markdown = Redcarpet::Markdown.new(HTMLwithAlbino, fenced_code_blocks: true)
+  readme   = markdown.render(file.read)
+  file.delete
+
+  layout = GEN.join('index.slim').to_s
+
+  ROOT.join('index.html').open('w') do |index|
+    options = { format: :html5, disable_escape: true }
+    index << Slim::Template.new(layout, options).render { readme }
+  end
+end
+
+desc 'Build site files'
+task :build do
+  build
+end

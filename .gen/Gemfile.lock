@@ -1,0 +1,63 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    albino (1.3.3)
+      posix-spawn (>= 0.3.6)
+    chunky_png (1.2.6)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.4.0)
+    compass (0.13.alpha.0)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.2.0.alpha.93)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
+    fssm (0.2.9)
+    hike (1.2.1)
+    libv8 (3.3.10.4)
+    multi_json (1.3.7)
+    posix-spawn (0.3.6)
+    pygmentize (0.0.3)
+    rack (1.4.1)
+    rack-protection (1.2.0)
+      rack
+    rake (10.0.1)
+    redcarpet (2.2.2)
+    sass (3.2.3)
+    sinatra (1.3.3)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    slim (1.3.4)
+      temple (~> 0.5.5)
+      tilt (~> 1.3.3)
+    sprockets (2.8.1)
+      hike (~> 1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    temple (0.5.5)
+    therubyracer (0.10.2)
+      libv8 (~> 3.3.10)
+    tilt (1.3.3)
+    uglifier (1.3.0)
+      execjs (>= 0.3.0)
+      multi_json (~> 1.0, >= 1.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  albino
+  coffee-script
+  compass (~> 0.13.alpha.0)
+  pygmentize
+  rake
+  redcarpet
+  sinatra
+  slim
+  sprockets
+  therubyracer
+  uglifier

@@ -1,0 +1,119 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Compass.js</title></head><body><h1>Compass.js</h1>
+
+<p>Compass.js allows you to get compass heading in JavaScript.
+Today we haven’t any standard way to get compass data,
+but there are two proprietary APIs and one hack:
+* <a href="http://docs.phonegap.com/phonegap_compass_compass.md.html">PhoneGap has</a> <code>navigator.compass</code> API.
+* iOS <a href="http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html">Safari adds</a> <code>webkitCompassHeading</code> property to <code>deviceorientation</code> event.
+* We can enable GPS and ask user to go forward. GPS will send current heading,
+  so we can calculate difference between real North and zero in
+  <code>deviceorientation</code> event. Next we use this difference to get compass heading
+  only by device orientation.</p>
+
+<p>This library hides all this magic and APIs from you, autodetects available
+way and provides clean and simple API for your geolocation web app.</p>
+
+<p>Sponsored by <a href="http://evilmartians.com/">Evil Martians</a>.</p>
+
+<h2>Usage</h2>
+
+<p>Hide compass for desktop users (without compass, GPS and accelerometers):</p>
+<div class="highlight"><pre><span class="nx">Compass</span><span class="p">.</span><span class="nx">noSupport</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.compass&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+<p>Show instructions for Android users:</p>
+<div class="highlight"><pre><span class="nx">Compass</span><span class="p">.</span><span class="nx">needGPS</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.go-outside-message&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>          <span class="c1">// Step 1: we need GPS signal</span>
+<span class="p">}).</span><span class="nx">needMove</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.go-outside-message&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">()</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.move-and-hold-ahead-message&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span> <span class="c1">// Step 2: user must go forward</span>
+<span class="p">}).</span><span class="nx">init</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.move-and-hold-ahead-message&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span> <span class="c1">// GPS hack is enabled</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+<p>Add compass heading listener:</p>
+<div class="highlight"><pre><span class="nx">Compass</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">heading</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.degrees&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">heading</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.compass&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="nx">transform</span><span class="o">:</span> <span class="s1">&#39;rotate(&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="nx">heading</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;deg)&#39;</span> <span class="p">});</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+<h3>Method Name</h3>
+
+<p>Library will detect method asynchronously, so you can’t just read
+<code>Compass.method</code>, because it can be empty yet. It will be better to
+use <code>Compass.init</code> method:</p>
+<div class="highlight"><pre><span class="nx">Compass</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">method</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Compass heading by &#39;</span> <span class="o">+</span> <span class="nx">method</span><span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+<p>If library is already initialized, callback will be executed instantly,
+without reinitialization.</p>
+
+<h3>Unwatch</h3>
+
+<p>You can remove compass listener by <code>Compass.unwatch</code> method:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">watchID</span> <span class="o">=</span> <span class="nx">Compass</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">heading</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.degrees&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">heading</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">Compass</span><span class="p">.</span><span class="nx">unwatch</span><span class="p">(</span><span class="nx">watchID</span><span class="p">);</span>
+</pre>
+</div>
+
+<h2>Installing</h2>
+
+<h3>Ruby on Rails</h3>
+
+<p>For Ruby on Rails you can use gem for Assets Pipeline.</p>
+
+<ol>
+<li><p>Add <code>compassjs</code> gem to <code>Gemfile</code>:</p>
+<div class="highlight"><pre><span class="n">gem</span> <span class="s2">&quot;compassjs&quot;</span>
+</pre>
+</div></li>
+<li><p>Install gems:</p>
+<div class="highlight"><pre>bundle install
+</pre>
+</div></li>
+<li><p>Include Pages.js to your <code>application.js.coffee</code>:</p></li>
+</ol>
+
+<h3>Others</h3>
+
+<p>If you don’t use any assets packaging manager (it’s very bad idea), you can use
+already minified version of the library.
+Take it from: <a href="https://github.com/ai/compass.js/downloads">github.com/ai/compass.js/downloads</a>.</p>
+
+<h2>Contributing</h2>
+
+<ol>
+<li><p>To run tests you need node.js and npm. For example, in Ubuntu run:</p>
+<div class="highlight"><pre>sudo apt-get install nodejs npm
+</pre>
+</div></li>
+<li><p>Next install npm dependencies:</p>
+<div class="highlight"><pre>npm install
+</pre>
+</div></li>
+<li><p>Run all tests:</p>
+<div class="highlight"><pre>./node_modules/.bin/cake <span class="nb">test</span>
+</pre>
+</div></li>
+<li><p>Run test server:</p>
+<div class="highlight"><pre>./node_modules/.bin/cake server
+</pre>
+</div></li>
+<li><p>Open tests in browser: <a href="http://localhost:8000">localhost:8000</a>.</p></li>
+<li><p>Also you can see real usage example in integration test:
+<a href="http://localhost:8000/integration">localhost:8000/integration</a>.</p></li>
+</ol>
+</body></html>
