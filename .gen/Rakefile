@@ -19,22 +19,107 @@ class HTMLwithAlbino < Redcarpet::Render::HTML
   end
 end
 
-def build
+class SassCompiler < Sprockets::SassTemplate
+  def sass_options(context)
+    {
+      filename:    eval_file,
+      line:        line,
+      syntax:      syntax,
+      cache_store: Sprockets::SassCacheStore.new(context.environment),
+      importer:    Sprockets::SassImporter.new(context, context.pathname),
+      sprockets:   { context: context, environment: context.environment },
+      load_paths:  context.environment.paths.map { |path|
+        Sprockets::SassImporter.new(context, path)
+      }
+    }
+  end
+
+  def evaluate(context, locals, &block)
+    ::Sass::Engine.new(data, sass_options(context)).render
+  rescue ::Sass::SyntaxError => e
+    context.__LINE__ = e.sass_backtrace.first[:line]
+    raise e
+  end
+end
+
+class CompressedSassCompiler < SassCompiler
+  def sass_options(*params)
+    super.merge(style: :compressed)
+  end
+end
+
+class Helper
+
+  attr_accessor :env
+
+  def self.instance(env)
+    @@instance ||= self.new
+    @@instance.env = env
+    @@instance
+  end
+
+  def assets
+    @sprockets ||= begin
+      Sprockets.register_engine '.sass',
+        @env == :production ? CompressedSassCompiler : SassCompiler
+
+      Sprockets::Environment.new(GEN) do |env|
+        env.append_path(GEN)
+
+        Sass.load_paths.concat(Compass.sass_engine_options[:load_paths])
+
+        if @env == :production
+          env.js_compressor = Uglifier.new(copyright: false)
+        end
+      end
+    end
+  end
+
+  def font(name, opts = { })
+    '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=' +
+      name.gsub(' ', '+') + opts.to_a.map { |k, v| "&#{k}=#{v}" }.join + '">'
+  end
+
+end
+
+def build(env = :development)
   `git checkout master -- ../README.md`
   file     = ROOT.join('README.md')
-  markdown = Redcarpet::Markdown.new(HTMLwithAlbino, fenced_code_blocks: true)
-  readme   = markdown.render(file.read)
+  readme   = file.read
   file.delete
 
+  readme   = readme.split('## Contributing').first
+
+  markdown = Redcarpet::Markdown.new(HTMLwithAlbino, fenced_code_blocks: true)
+  readme   = markdown.render(readme)
+
+  helper = Helper.instance(env)
   layout = GEN.join('index.slim').to_s
 
   ROOT.join('index.html').open('w') do |index|
     options = { format: :html5, disable_escape: true }
-    index << Slim::Template.new(layout, options).render { readme }
+    options[:pretty] = true if env == :development
+    index << Slim::Template.new(layout, options).render(helper) { readme }
   end
 end
 
 desc 'Build site files'
 task :build do
-  build
+  build(:production)
+end
+
+desc 'Run server for development'
+task :server do
+  require 'sinatra/base'
+
+  class CompassSite < Sinatra::Base
+    set :public_folder, ROOT
+
+    get '/' do
+      build
+      send_file ROOT.join('index.html')
+    end
+  end
+
+  CompassSite.run!
 end

@@ -3,5 +3,12 @@ html
   head
     meta charset="UTF-8"
     title Compass.js
+    = font 'PT Sans'
+    = font 'PT Mono'
+    = font 'Philosopher'
+    style= assets['style.css']
   body
-    = yield
+    .center
+      = yield
+    script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"
+    script= assets['script.js']
