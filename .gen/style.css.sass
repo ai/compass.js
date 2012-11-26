@@ -23,6 +23,25 @@ h1, h2, h3
 h1
   margin: 25px 0 25px 0
   font-size: 70px
+  span
+    position: relative
+    &::before
+      content: ' '
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      //background-color: white
+      z-index: 1
+  .compass
+    position: absolute
+    bottom: 15px
+    left: 50%
+    margin-left: -5px
+    +image-size-by-2("dot.png")
+    background-size: 100% 100%
+    z-index: 2
 
 h2
   margin: 20px 0 15px 0
@@ -75,17 +94,21 @@ pre
   .text
     border-bottom: 1px solid #ccc
     +transition(border 200ms)
-  a:hover
-    background: #f0f0f0
-    .text
-      border-color: black
-  a:active
-    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.4)
   .icon
     background-size: 100% 100%
     position: absolute
     top: 4px
     left: 5px
+    opacity: 0.85
+    +transition(opacity 200ms)
+  a:hover
+    background: #f0f0f0
+    .text
+      border-color: black
+    .icon
+      opacity: 1
+  a:active
+    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.4)
   .github
     padding-left: 21px + 15px
     margin-right: 20px

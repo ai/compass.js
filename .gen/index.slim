@@ -11,7 +11,7 @@ html
   body
     .center
       - html = yield.split(/<p>Sponsored by <a[^<]*<\/a>.<\/p>/)
-      = html.first
+      = html.first.sub(".js</h1>", "<span><span class=\"compass\"></span>.</span>js</h1>")
       .meta
         a.github href="http://github.com/ai/compass.js"
           .icon
