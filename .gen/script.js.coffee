@@ -3,7 +3,7 @@ $(window).load ->
 
   demo    = $('.demo')
   arrow   = demo.find('.arrow')
-  degrees = demo.find('.degrees span')
+  degrees = demo.find('.degrees .value')
 
   Compass.noSupport ->
     after 400, ->
@@ -20,5 +20,5 @@ $(window).load ->
       demo.removeClass('init-step move-step').addClass('enable')
 
   Compass.watch (heading) ->
-    degrees.text(heading)
+    degrees.text(Math.round(heading))
     arrow.css(transform: 'rotate(' + (-heading) + 'deg)')
