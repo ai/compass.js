@@ -17,7 +17,7 @@ $(window).load ->
 
   Compass.init (method) ->
     if method
-      demo.removeClass('init-step move-step').addClass('working')
+      demo.removeClass('init-step move-step').addClass('enable')
 
   Compass.watch (heading) ->
     degrees.text(heading)
