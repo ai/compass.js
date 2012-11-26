@@ -13,6 +13,9 @@ require 'coffee_script'
 require 'redcarpet'
 require 'albino'
 
+
+Compass.configuration.images_path = GEN.to_s
+
 class HTMLwithAlbino < Redcarpet::Render::HTML
   def block_code(code, language)
     Albino.colorize(code, language)

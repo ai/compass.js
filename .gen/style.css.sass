@@ -1,5 +1,8 @@
 @import 'compass/css3'
 
+@mixin image-size-by-2($path)
+  width: image-width($path) / 2
+  height: image-height($path) / 2
 *
   margin: 0
   padding: 0
@@ -87,12 +90,8 @@ pre
     padding-left: 21px + 15px
     margin-right: 20px
     .icon
-      background-image: url(/github.png)
-      width: 21px
-      height: 26px
+      +image-size-by-2("github.png")
   .evil
     padding-left: 39px + 15px
     .icon
-      background-image: url(/evilmartians.png)
-      width: 39px
-      height: 28px
+      +image-size-by-2("evilmartians.png")
