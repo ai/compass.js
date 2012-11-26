@@ -82,8 +82,7 @@ pre
   height: 24px
   +transition(height 600ms)
   .notice
-    height: 24px
-    linear-height: 24px
+    line-height: 24px
     position: absolute
     top: 50%
     margin-top: -12px
@@ -198,3 +197,18 @@ pre
     padding-left: 39px + 15px
     .icon
       +image-size-by-2("evilmartians.png")
+
+@media (max-width: 490px)
+  h1
+    margin: 0 0 15px 0
+  .meta
+    .github
+      margin-left: (78px - 42px) / 2
+  .demo
+    height: 48px
+    .notice-wrap
+      position: relative
+    .compass-icon
+      position: absolute
+      top: -2px
+      left: -35px

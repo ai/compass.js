@@ -18,17 +18,21 @@ html
       = intro.first.sub(".js", "<span><span class=\"compass\"></span>.</span>js</h1>")
       .demo.init-step
         .notice.init
-          .compass-icon
-          | Detecting compass support
+          span.notice-wrap
+            .compass-icon
+            | Detecting compass support
         .notice.no-support
-          .compass-icon
-          | Open on mobile phone, to view compass example
+          span.notice-wrap
+            .compass-icon
+            | Open on mobile phone, to view compass example
         .notice.gps
-          .compass-icon
-          | GPS Hack step 1. Go outside to have GPS signal.
+          span.notice-wrap
+            .compass-icon
+            | GPS Hack step 1. Go outside to have GPS signal.
         .notice.move
-          .compass-icon
-          | GPS Hack step 2. Go forward to take initialized heading from GPS.
+          span.notice-wrap
+            .compass-icon
+            | GPS Hack step 2. Go forward to take initialized heading from GPS.
         .compass
           .circle
           .arrow
