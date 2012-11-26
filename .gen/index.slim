@@ -7,11 +7,34 @@ html
     = font 'PT Sans'
     = font 'PT Mono'
     = font 'Philosopher:700'
+    meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
     style= assets['style.css']
   body
     .center
-      - html = yield.split(/<p>Sponsored by <a[^<]*<\/a>.<\/p>/)
-      = html.first.sub(".js</h1>", "<span><span class=\"compass\"></span>.</span>js</h1>")
+      - html  = yield.split(/<p>Sponsored by <a[^<]*<\/a>.<\/p>/)
+      - intro = html.first.split("</h1>")
+      = intro.first.sub(".js", "<span><span class=\"compass\"></span>.</span>js</h1>")
+      .demo.init-step
+        .notice.init
+          .compass-icon
+          | Detecting compass support
+        .notice.no-support
+          .compass-icon
+          | Open on mobile phone, to view compass example
+        .notice.gps
+          .compass-icon
+          | GPS Hack step 1. Go outside to have GPS signal.
+        .notice.move
+          .compass-icon
+          | GPS Hack step 2. Go forward to take initialized heading from GPS.
+        .compass
+          .circle
+          .arrow
+            .letter N
+          .degrees
+            span.value 0
+            span.mark °
+      = intro.last
       .meta
         a.github href="http://github.com/ai/compass.js"
           .icon
@@ -21,5 +44,6 @@ html
           span.text Sponsored by Evil Martians
       = html.last
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"
+    script src="/compass.js"
     script= assets['script.js']
     style= assets['images.css']

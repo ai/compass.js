@@ -100,6 +100,13 @@ class Generator
       @readme = parser.render(@readme)
     end
 
+    unless @script
+      source = from_master('../lib/compass.js')
+      source = Uglifier.compile(source, copyright: false)
+      ROOT.join('compass.js').open('w') { |file| file << source }
+      @script = true
+    end
+
     helper = Helper.instance(env)
     layout = GEN.join('index.slim').to_s
 

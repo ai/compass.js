@@ -3,6 +3,8 @@
 @mixin image-size-by-2($path)
   width: image-width($path) / 2
   height: image-height($path) / 2
+  background-size: 100% 100%
+
 *
   margin: 0
   padding: 0
@@ -21,19 +23,11 @@ h1, h2, h3
   font-weight: bold
 
 h1
-  margin: 25px 0 25px 0
+  margin: 15px 0 25px 0
   font-size: 70px
   span
     position: relative
-    &::before
-      content: ' '
-      position: absolute
-      top: 0
-      left: 0
-      right: 0
-      bottom: 0
-      //background-color: white
-      z-index: 1
+    color: white
   .compass
     position: absolute
     bottom: 15px
@@ -55,10 +49,11 @@ p, ul
   margin-bottom: 10px
 
 .center
-  width: 620px
+  width: 680px
   max-width: 100%
   margin: 0 auto
-  padding: 0 0 10px 0
+  padding: 10px 25px
+  +box-sizing(border-box)
 
 code
   margin: 0 2px
@@ -75,10 +70,96 @@ pre
   line-height: 19px
   padding: 6px 10px
   margin-bottom: 10px
+  overflow: auto
   .kd
     font-weight: bold
   .c1, .s1
     color: #555
+
+.demo
+  margin: -5px 0 20px 0
+  position: relative
+  height: 24px
+  +transition(height 600ms)
+  .notice
+    height: 24px
+    linear-height: 24px
+    position: absolute
+    top: 50%
+    margin-top: -12px
+    left: 0
+    right: 0
+    text-align: center
+    color: #666
+  .compass-icon
+    display: inline-block
+    height: 22px
+    width: 22px
+    border: 2px solid black
+    border-radius: 22px
+    background-size: 90% 90%
+    background-repeat: no-repeat
+    background-position: 1px 1px
+    margin: 0 7px -7px 1px
+    opacity: 0.4
+    +animation(rotating 1.3s infinite linear)
+    +animation-play-state(paused)
+  .compass
+    position: absolute
+    top: 50%
+    left: 50%
+    height: 120px + 26px
+    width: 120px
+    margin: -73px 0 0 -60px
+  .notice, .compass
+    +rotateX(90deg)
+    opacity: 0
+    +transition(all 600ms)
+  .circle
+    width: 120px
+    height: 120px
+    border-radius: 50%
+    border: 3px solid black
+    +box-sizing(border-box)
+  .arrow
+    position: absolute
+    top: 5px
+    left: 5px
+    width: 110px
+    height: 110px
+    background-size: 100% 100%
+  .letter
+    color: white
+    font-weight: bold
+    text-align: center
+    width: 100%
+    margin-top: 30px
+    position: relative
+  .degrees
+    margin-top: 6px
+    height: 20px
+    line-height: 20px
+    text-align: center
+    font-weight: bold
+  .mark
+    position: absolute
+  &.init-step .init, &.disable .no-support, &.gps-step .gps, &.move-step .move
+    +rotateX(0)
+    opacity: 1
+  &.init-step .init, &.gps-step .gps, &.move-step .move
+    .compass-icon
+      +animation-play-state(running)
+  &.enable
+    height: 150px
+    .compass
+      +rotateX(0)
+      opacity: 1
+
++keyframes(rotating)
+  0%
+    +rotate(0)
+  100%
+    +rotate(360deg)
 
 .meta
   margin: 11px 0 -5px -5px
@@ -95,7 +176,6 @@ pre
     border-bottom: 1px solid #ccc
     +transition(border 200ms)
   .icon
-    background-size: 100% 100%
     position: absolute
     top: 4px
     left: 5px
