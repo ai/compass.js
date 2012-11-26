@@ -10,6 +10,15 @@ html
     style= assets['style.css']
   body
     .center
-      = yield
+      - html = yield.split(/<p>Sponsored by <a[^<]*<\/a>.<\/p>/)
+      = html.first
+      .meta
+        a.github href="http://github.com/ai/compass.js"
+          .icon
+          span.text Fork me on GitHub
+        a.evil href="http://evilmartians.com/" target="_blank"
+          .icon
+          span.text Sponsored by Evil Martians
+      = html.last
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"
     script= assets['script.js']

@@ -83,16 +83,18 @@ class Helper
 end
 
 class Generator
+  def self.from_master(file)
+      `git checkout master -- #{file}`
+      content = GEN.join(file).read
+      `git rm -f #{file}`
+      content
+  end
+
   def self.build(env = :development)
     unless @readme
-      `git checkout master -- ../README.md`
-      @readme  = ROOT.join('README.md').read
-      `git rm -f ../README.md`
-
-      @readme  = @readme.split('## Contributing').first
-
-      markdown = Redcarpet::Markdown.new(HTMLwithAlbino, fenced_code_blocks: true)
-      @readme  = markdown.render(@readme)
+      parser  = Redcarpet::Markdown.new HTMLwithAlbino, fenced_code_blocks: true
+      @readme = from_master('../README.md').split('## Contributing').first
+      @readme = parser.render(@readme)
     end
 
     helper = Helper.instance(env)
