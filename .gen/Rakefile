@@ -98,11 +98,14 @@ class Generator
     helper = Helper.instance(env)
     layout = GEN.join('index.slim').to_s
 
-    ROOT.join('index.html').open('w') do |index|
-      options = { format: :html5, disable_escape: true }
-      options[:pretty] = true if env == :development
-      index << Slim::Template.new(layout, options).render(helper) { @readme }
-    end
+    options = { format: :html5, disable_escape: true }
+    options[:pretty] = true if env == :development
+    Slim::Template.new(layout, options).render(helper) { @readme }
+  end
+
+  def self.save(env = :production)
+    ROOT.join('index.html').open('w') { |file| file << build(env) }
+    self
   end
 end
 
@@ -119,8 +122,7 @@ task :server do
     set :public_folder, ROOT
 
     get '/' do
-      Generator.build
-      send_file ROOT.join('index.html')
+      Generator.save.build
     end
   end
 

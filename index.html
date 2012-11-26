@@ -1,77 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Compass.js</title><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans"><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Mono"><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Philosopher"><style>* {
-        margin: 0;
-        padding: 0; }
-      
-      body {
-        background: white;
-        color: black;
-        font-family: "PT Sans", "Trebuchet MS", sans-serif; }
-      
-      code, pre {
-        font-family: "PT Mono", monospace; }
-      
-      h1, h2, h3 {
-        font-family: Philosopher, Georgia, serif;
-        text-align: center; }
-      
-      h1 {
-        margin: 25px 0 25px 0;
-        font-size: 70px; }
-      
-      h2 {
-        margin: 20px 0 15px 0;
-        font-size: 36px; }
-      
-      h3 {
-        margin: 20px 0 10px 0;
-        font-size: 24px; }
-      
-      p {
-        margin-bottom: 10px; }
-      
-      .center {
-        width: 620px;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 0 0 10px 0; }
-      
-      code {
-        margin: 0 2px;
-        padding: 0px 5px;
-        border: 1px solid #eaeaea;
-        background-color: #fafafa;
-        border-radius: 3px;
-        font-size: 13px; }
-      
-      pre {
-        background-color: #fafafa;
-        border: 1px solid #cccccc;
-        font-size: 13px;
-        line-height: 19px;
-        padding: 6px 10px;
-        margin-bottom: 10px; }
-        pre .kd {
-          font-weight: bold; }
-        pre .c1 {
-          color: #555555; }
-      </style>
-  </head>
-  <body>
-    <div class="center"><h1>Compass.js</h1>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Compass.js</title><link href="/favicon.ico" rel="shortcut icon"><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans"><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Mono"><link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Philosopher:700"><style>*{margin:0;padding:0}body{background:#fff;color:#000;font-family:"PT Sans","Trebuchet MS",sans-serif}code,pre{font-family:"PT Mono",monospace}h1,h2,h3{font-family:Philosopher,Georgia,serif;text-align:center;font-weight:bold}h1{margin:25px 0 25px 0;font-size:70px}h2{margin:20px 0 15px 0;font-size:36px}h3{margin:20px 0 10px 0;font-size:24px}p,ul{margin-bottom:10px}.center{width:620px;max-width:100%;margin:0 auto;padding:0 0 10px 0}code{margin:0 2px;padding:0px 5px;border:1px solid #eaeaea;background-color:#fafafa;border-radius:3px;font-size:13px}pre{background-color:#fafafa;border:1px solid #ccc;font-size:13px;line-height:19px;padding:6px 10px;margin-bottom:10px}pre .kd{font-weight:bold}pre .c1,pre .s1{color:#555}
+</style></head><body><div class="center"><h1>Compass.js</h1>
 
 <p>Compass.js allows you to get compass heading in JavaScript.
 Today we haven’t any standard way to get compass data,
-but there are two proprietary APIs and one hack:
-* <a href="http://docs.phonegap.com/phonegap_compass_compass.md.html">PhoneGap has</a> <code>navigator.compass</code> API.
-* iOS <a href="http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html">Safari adds</a> <code>webkitCompassHeading</code> property to <code>deviceorientation</code> event.
-* We can enable GPS and ask user to go forward. GPS will send current heading,
-  so we can calculate difference between real North and zero in
-  <code>deviceorientation</code> event. Next we use this difference to get compass heading
-  only by device orientation.</p>
+but there are two proprietary APIs and one hack:</p>
+
+<ul>
+<li><a href="http://docs.phonegap.com/phonegap_compass_compass.md.html">PhoneGap has</a> <code>navigator.compass</code> API.</li>
+<li>iOS <a href="http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html">Safari adds</a> <code>webkitCompassHeading</code> property to <code>deviceorientation</code> event.</li>
+<li>We can enable GPS and ask user to go forward. GPS will send current heading,
+so we can calculate difference between real North and zero in
+<code>deviceorientation</code> event. Next we use this difference to get compass heading
+only by device orientation.</li>
+</ul>
 
 <p>This library hides all this magic and APIs from you, autodetects available
 way and provides clean and simple API for your geolocation web app.</p>
@@ -155,13 +96,4 @@ without reinitialization.</p>
 <p>If you don’t use any assets packaging manager (it’s very bad idea), you can use
 already minified version of the library.
 Take it from: <a href="https://github.com/ai/compass.js/downloads">github.com/ai/compass.js/downloads</a>.</p>
-</div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script>(function() {
-      
-        jQuery(function($) {});
-      
-      }).call(this);
-      </script>
-  </body>
-</html>
+</div><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script><script>(function(){jQuery(function(e){})}).call(this);</script></body></html>
