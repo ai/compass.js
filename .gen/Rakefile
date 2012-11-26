@@ -82,30 +82,33 @@ class Helper
 
 end
 
-def build(env = :development)
-  `git checkout master -- ../README.md`
-  file     = ROOT.join('README.md')
-  readme   = file.read
-  file.delete
+class Generator
+  def self.build(env = :development)
+    unless @readme
+      `git checkout master -- ../README.md`
+      @readme  = ROOT.join('README.md').read
+      `git rm -f ../README.md`
 
-  readme   = readme.split('## Contributing').first
+      @readme  = @readme.split('## Contributing').first
 
-  markdown = Redcarpet::Markdown.new(HTMLwithAlbino, fenced_code_blocks: true)
-  readme   = markdown.render(readme)
+      markdown = Redcarpet::Markdown.new(HTMLwithAlbino, fenced_code_blocks: true)
+      @readme  = markdown.render(@readme)
+    end
 
-  helper = Helper.instance(env)
-  layout = GEN.join('index.slim').to_s
+    helper = Helper.instance(env)
+    layout = GEN.join('index.slim').to_s
 
-  ROOT.join('index.html').open('w') do |index|
-    options = { format: :html5, disable_escape: true }
-    options[:pretty] = true if env == :development
-    index << Slim::Template.new(layout, options).render(helper) { readme }
+    ROOT.join('index.html').open('w') do |index|
+      options = { format: :html5, disable_escape: true }
+      options[:pretty] = true if env == :development
+      index << Slim::Template.new(layout, options).render(helper) { @readme }
+    end
   end
 end
 
 desc 'Build site files'
 task :build do
-  build(:production)
+  Generator.build(:production)
 end
 
 desc 'Run server for development'
@@ -116,7 +119,7 @@ task :server do
     set :public_folder, ROOT
 
     get '/' do
-      build
+      Generator.build
       send_file ROOT.join('index.html')
     end
   end
