@@ -1,6 +1,6 @@
 {
   "name": "compass.js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "devDependencies": {
     "coffee-script": "1.4.0",
     "mocha":         "1.7.1",
