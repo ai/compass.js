@@ -16,6 +16,8 @@ $(window).load ->
     demo.removeClass('gps-step').addClass('move-step')
 
   Compass.init (method) ->
+    if method != false and method != 'orientationAndGPS'
+      demo.removeClass('animated').addClass('unanimated')
     if method
       demo.removeClass('init-step move-step').addClass('enable')
 

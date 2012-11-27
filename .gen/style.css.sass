@@ -79,7 +79,6 @@ pre
   margin: -5px 0 25px 0
   position: relative
   height: 24px
-  +transition(height 600ms)
   .notice
     line-height: 24px
     position: absolute
@@ -109,10 +108,6 @@ pre
     height: 120px + 26px
     width: 120px
     margin: -68px 0 0 -60px
-  .notice, .compass
-    +rotateX(90deg)
-    opacity: 0
-    +transition(all 600ms)
   .circle
     width: 120px
     height: 120px
@@ -141,9 +136,6 @@ pre
     font-weight: bold
   .mark
     position: absolute
-  &.init-step .init, &.disable .no-support, &.gps-step .gps, &.move-step .move
-    +rotateX(0)
-    opacity: 1
   &.init-step .init, &.gps-step .gps, &.move-step .move
     .compass-icon
       +animation-play-state(running)
@@ -151,7 +143,18 @@ pre
     +animation(none)
   &.enable
     height: 150px
-    .compass
+  &.unanimated
+    .notice, .compass
+      display: none
+    &.init-step .init, &.disable .no-support, &.gps-step .gps, &.move-step .move, &.enable .compass
+      display: block
+  &.animated
+    +transition(height 600ms)
+    .notice, .compass
+      +rotateX(90deg)
+      opacity: 0
+      +transition(all 600ms)
+    &.init-step .init, &.disable .no-support, &.gps-step .gps, &.move-step .move, &.enable .compass
       +rotateX(0)
       opacity: 1
 

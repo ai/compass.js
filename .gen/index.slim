@@ -18,7 +18,7 @@ html
       - html  = yield.split(/<p>Sponsored by <a[^<]*<\/a>.<\/p>/)
       - intro = html.first.split("</h1>")
       = intro.first.sub(".js", "<span><span class=\"compass\"></span>.</span>js</h1>")
-      .demo.init-step
+      .demo.init-step.animated
         .notice.init
           span.notice-wrap
             span.compass-icon
