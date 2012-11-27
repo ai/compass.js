@@ -19,19 +19,19 @@ html
       .demo.init-step
         .notice.init
           span.notice-wrap
-            .compass-icon
+            span.compass-icon
             | Detecting compass support
         .notice.no-support
           span.notice-wrap
-            .compass-icon
+            span.compass-icon
             | Open on mobile phone, to view compass example
         .notice.gps
           span.notice-wrap
-            .compass-icon
+            span.compass-icon
             | GPS Hack step 1. Go outside to get GPS signal.
         .notice.move
           span.notice-wrap
-            .compass-icon
+            span.compass-icon
             | GPS Hack step 2. Go forward to take initialized heading from GPS.
         .compass
           .circle
@@ -50,4 +50,4 @@ html
           span.text Sponsored by Evil Martians
       = html.last
     script= assets['script.js']
-    style= assets['images.css']
+    style( scoped )= assets['images.css']
