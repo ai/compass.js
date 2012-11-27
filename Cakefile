@@ -146,11 +146,11 @@ task 'test', 'Run tests in node', ->
     process.exit(1)       if error
 
 task 'clean', 'Remove all generated files', ->
-  fs.removeSync('build/') if path.existsSync('build/')
-  fs.removeSync('pkg/')   if path.existsSync('pkg/')
+  fs.removeSync('build/') if fs.existsSync('build/')
+  fs.removeSync('pkg/')   if fs.existsSync('pkg/')
 
 task 'min', 'Create minimized version of library', ->
-  fs.mkdirsSync('pkg/') unless path.existsSync('pkg/')
+  fs.mkdirsSync('pkg/') unless fs.existsSync('pkg/')
   for file in project.libs()
     source = fs.readFileSync(file).toString()
 
@@ -164,7 +164,7 @@ task 'min', 'Create minimized version of library', ->
     fs.writeFileSync(pkg, min)
 
 task 'gem', 'Build RubyGem package', ->
-  fs.removeSync('build/') if path.existsSync('build/')
+  fs.removeSync('build/') if fs.existsSync('build/')
   fs.mkdirsSync('build/lib/assets/javascripts/')
 
   copy = require('fs-extra/lib/copy').copyFileSync
@@ -186,7 +186,7 @@ task 'gem', 'Build RubyGem package', ->
       process.stderr.write(error.message)
       process.exit(1)
     else
-      fs.mkdirsSync('pkg/') unless path.existsSync('pkg/')
+      fs.mkdirsSync('pkg/') unless fs.existsSync('pkg/')
       gemFile = glob.sync('build/*.gem')[0]
       copy(gemFile, gemFile.replace(/^build\//, 'pkg/'))
       fs.removeSync('build/')
