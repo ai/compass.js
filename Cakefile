@@ -152,16 +152,10 @@ task 'clean', 'Remove all generated files', ->
 task 'min', 'Create minimized version of library', ->
   fs.mkdirsSync('pkg/') unless fs.existsSync('pkg/')
   for file in project.libs()
-    source = fs.readFileSync(file).toString()
-
-    ast = uglify.parser.parse(source)
-    ast = uglify.uglify.ast_mangle(ast)
-    ast = uglify.uglify.ast_squeeze(ast)
-    min = uglify.uglify.gen_code(ast)
-
+    minified = uglify.minify(file)
     pkg = file.replace('lib/', 'pkg/').
       replace('.js', "-#{project.version()}.min.js")
-    fs.writeFileSync(pkg, min)
+    fs.writeFileSync(pkg, minified.code)
 
 task 'gem', 'Build RubyGem package', ->
   fs.removeSync('build/') if fs.existsSync('build/')
