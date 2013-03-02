@@ -1,3 +1,8 @@
+$(document).ready ->
+  links = $('.meta a')
+  links.on 'touchstart',         -> $(@).addClass('tapped')
+  links.on 'touchend touchmove', -> $(@).removeClass('tapped')
+
 $(window).load ->
   after = (ms, fn) -> setTimeout(fn, ms)
 
