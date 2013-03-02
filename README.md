@@ -109,9 +109,9 @@ For Ruby on Rails you can use gem for Assets Pipeline.
 If you don’t use any assets packaging manager (it’s very bad idea), you can use
 already minified version of the library.
 
-Take it from: [github.com/ai/compass.js/downloads].
+Take it from: [ai.github.com/compass.js/compass.js].
 
-[github.com/ai/compass.js/downloads]: https://github.com/ai/compass.js/downloads
+[ai.github.com/compass.js/compass.js]: http://ai.github.com/compass.js/compass.js
 
 ## Contributing
 

@@ -5,7 +5,6 @@ http   = require('http')
 path   = require('path')
 glob   = require('glob')
 coffee = require('coffee-script')
-uglify = require('uglify-js')
 
 project =
 
@@ -151,14 +150,6 @@ task 'test', 'Run tests in node', ->
 task 'clean', 'Remove all generated files', ->
   fs.removeSync('build/') if fs.existsSync('build/')
   fs.removeSync('pkg/')   if fs.existsSync('pkg/')
-
-task 'min', 'Create minimized version of library', ->
-  fs.mkdirsSync('pkg/') unless fs.existsSync('pkg/')
-  for file in project.libs()
-    min = uglify.minify(file)
-    pkg = file.replace('lib/', 'pkg/').
-      replace('.js', "-#{project.version()}.min.js")
-    fs.writeFileSync(pkg, min.code)
 
 task 'gem', 'Build RubyGem package', ->
   fs.removeSync('build/') if fs.existsSync('build/')
