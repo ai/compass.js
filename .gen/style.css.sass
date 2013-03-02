@@ -47,6 +47,16 @@ h3
 p, ul
   margin-bottom: 10px
 
+a
+  color: black
+  text-decoration: none
+  border-bottom: 1px solid #ccc
+  display: inline-block
+  line-height: 1
+  +transition(border 200ms)
+  &:hover
+    border-bottom-color: black
+
 .center
   width: 680px
   max-width: 100%
@@ -167,16 +177,16 @@ pre
 .meta
   margin: 11px 0 -5px -5px
   a
-    display: inline-block
     height: 36px
     line-height: 36px
-    color: black
-    text-decoration: none
+    border: none
     position: relative
     padding: 0 5px
     +transition(background 200ms)
   .text
+    display: inline-block
     border-bottom: 1px solid #ccc
+    line-height: 1
     +transition(border 200ms)
   .icon
     position: absolute
