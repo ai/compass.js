@@ -5,7 +5,7 @@ describe 'Compass', ->
     Compass._initing  = false
     Compass._watchers = { }
     Compass._gpsDiff  = undefined
-    Compass._checked  = undefined
+    Compass._checking = false
 
     Compass._win =
       addEventListener:    sinon.spy()
@@ -201,15 +201,17 @@ describe 'Compass', ->
         calledWith('deviceorientation', Compass._checkEvent)
 
     it 'should detect no support in orientation event', ->
+      @clock = sinon.useFakeTimers()
       Compass._win.DeviceOrientationEvent = ->
       Compass.init(callback)
       Compass._win.addEventListener.should.have.been.
         calledWith('deviceorientation', Compass._checkEvent)
 
       Compass._checkEvent({ alpha: null })
+      Compass._start.should.not.have.been.calledWith(false)
+
+      @clock.tick(1000)
       Compass._start.should.have.been.calledWith(false)
-      Compass._win.removeEventListener.should.have.been.
-        calledWith('deviceorientation', Compass._checkEvent)
 
     it 'should start GPS hack with orientation and geolocation', ->
       @clock = sinon.useFakeTimers()
@@ -224,6 +226,21 @@ describe 'Compass', ->
 
       @clock.tick(1000)
       Compass._start.should.have.not.been.called
+
+    it 'should use 2 orientation check', ->
+      @clock = sinon.useFakeTimers()
+      Compass._win.DeviceOrientationEvent = ->
+      sinon.stub(Compass, '_gpsHack');
+
+      Compass.init(callback)
+
+      Compass._checkEvent({ alpha: null })
+      Compass._start.should.have.not.been.calledWith(false)
+      Compass._gpsHack.should.not.have.been.called
+
+      Compass._checkEvent({ alpha: 10 })
+      Compass._start.should.have.not.been.calledWith(false)
+      Compass._gpsHack.should.have.been.called
 
     it 'should have timeout for orientation event', ->
       @clock = sinon.useFakeTimers()
