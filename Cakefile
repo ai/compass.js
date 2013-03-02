@@ -140,7 +140,7 @@ task 'test', 'Run tests in node', ->
   command = 'node_modules/.bin/mocha '
   for name, value of options
     name = name.replace /[A-Z]/, (letter) -> '-' + letter.toLowerCase()
-    command += "--#{name} " + if value == true then '' else " #{value} "
+    command += "--#{name} " + if value == true then '' else "#{value} "
   command += files.join(' ')
   exec command, (error, stdout, stderr) ->
     console.log(stdout)   if stdout?
