@@ -22,7 +22,6 @@ Sponsored by [Evil Martians].
 
 ## Usage
 
-
 Hide compass for desktop users (without compass, GPS and accelerometers):
 
 ```js
@@ -49,7 +48,7 @@ Add compass heading listener:
 ```js
 Compass.watch(function (heading) {
   $('.degrees').text(heading);
-  $('.compass').css({ transform: 'rotate(' + (-heading) + 'deg)' });
+  $('.compass').css('transform', 'rotate(' + (-heading) + 'deg)');
 });
 ```
 
@@ -84,7 +83,7 @@ Compass.unwatch(watchID);
 
 ### Ruby on Rails
 
-For Ruby on Rails you can use gem for Assets Pipeline.
+For Ruby on Rails you can use gem for Assets Pipeline.
 
 1. Add `compassjs` gem to `Gemfile`:
 
@@ -98,7 +97,7 @@ For Ruby on Rails you can use gem for Assets Pipeline.
    bundle install
    ```
 
-3. Include Pages.js to your `application.js.coffee`:
+3. Include Compass.js to your `application.js.coffee`:
 
    ```coffee
    #= require compass
