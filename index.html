@@ -43,7 +43,7 @@ way and provides clean and simple API for your geolocation web app.</p>
 <p>Add compass heading listener:</p>
 <div class="highlight"><pre><span class="nx">Compass</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">heading</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.degrees&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">heading</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.compass&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">({</span> <span class="nx">transform</span><span class="o">:</span> <span class="s1">&#39;rotate(&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="nx">heading</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;deg)&#39;</span> <span class="p">});</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.compass&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="s1">&#39;rotate(&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="nx">heading</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;deg)&#39;</span><span class="p">);</span>
 <span class="p">});</span>
 </pre>
 </div>
@@ -77,7 +77,7 @@ without reinitialization.</p>
 
 <h3>Ruby on Rails</h3>
 
-<p>For Ruby on Rails you can use gem for Assets Pipeline.</p>
+<p>For Ruby on Rails you can use gem for Assets Pipeline.</p>
 
 <ol>
 <li><p>Add <code>compassjs</code> gem to <code>Gemfile</code>:</p>
@@ -88,7 +88,7 @@ without reinitialization.</p>
 <div class="highlight"><pre>bundle install
 </pre>
 </div></li>
-<li><p>Include Pages.js to your <code>application.js.coffee</code>:</p></li>
+<li><p>Include Compass.js to your <code>application.js.coffee</code>:</p></li>
 </ol>
 
 <h3>Others</h3>
