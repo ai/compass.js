@@ -18,6 +18,7 @@ Compass.configuration.images_path = GEN.to_s
 
 class HTMLwithAlbino < Redcarpet::Render::HTML
   def block_code(code, language)
+    language = 'ruby' if language == 'coffee'
     Albino.colorize(code, language)
   end
 end
