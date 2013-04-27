@@ -129,7 +129,7 @@ Take it from: [ai.github.com/compass.js/compass.js].
 3. Run all tests:
 
    ```sh
-   ./node_modules/.bin/cake test
+   npm test
    ```
 
 4. Run test server:
