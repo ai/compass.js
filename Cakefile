@@ -3,7 +3,6 @@ url    = require('url')
 exec   = require('child_process').exec
 http   = require('http')
 path   = require('path')
-glob   = require('glob')
 coffee = require('coffee-script')
 
 project =
@@ -128,25 +127,6 @@ task 'server', 'Run test server', ->
   server.listen 8000
   console.log('Open http://localhost:8000/')
 
-task 'test', 'Run tests in node', ->
-  files   = ['test/mocha.js'].concat(project.libs()).concat(project.tests())
-  options =
-    ui:         'bdd'
-    reporter:   'spec'
-    compilers:  'coffee:coffee-script'
-    ignoreLeaks: true
-    colors:      true
-
-  command = 'node_modules/.bin/mocha '
-  for name, value of options
-    name = name.replace /[A-Z]/, (letter) -> '-' + letter.toLowerCase()
-    command += "--#{name} " + if value == true then '' else "#{value} "
-  command += files.join(' ')
-  exec command, (error, stdout, stderr) ->
-    console.log(stdout)   if stdout?
-    console.error(stderr) if stderr?
-    process.exit(1)       if error
-
 task 'clean', 'Remove all generated files', ->
   fs.removeSync('build/') if fs.existsSync('build/')
   fs.removeSync('pkg/')   if fs.existsSync('pkg/')
@@ -162,10 +142,10 @@ task 'gem', 'Build RubyGem package', ->
   gemspec = gemspec.replace('VERSION', "'#{project.version()}'")
   fs.writeFileSync("build/#{gem}.gemspec", gemspec)
 
-  copy("gem/#{gem}.rb",      "build/lib/#{gem}.rb")
-  copy('README.md',          'build/README.md')
-  copy('ChangeLog',          'build/ChangeLog')
-  copy('LICENSE',            'build/LICENSE')
+  copy("gem/#{gem}.rb", "build/lib/#{gem}.rb")
+  copy('README.md',     'build/README.md')
+  copy('ChangeLog',     'build/ChangeLog')
+  copy('LICENSE',       'build/LICENSE')
   for file in project.libs()
     copy(file, file.replace('lib/', 'build/lib/assets/javascripts/'))
 
@@ -175,6 +155,6 @@ task 'gem', 'Build RubyGem package', ->
       process.exit(1)
     else
       fs.mkdirsSync('pkg/') unless fs.existsSync('pkg/')
-      gemFile = glob.sync('build/*.gem')[0]
-      copy(gemFile, gemFile.replace(/^build\//, 'pkg/'))
+      gemFile = fs.readdirSync('build/').filter( (i) -> i.match(/\.gem$/) )[0]
+      copy('build/' + gemFile, 'pkg/' + gemFile)
       fs.removeSync('build/')
