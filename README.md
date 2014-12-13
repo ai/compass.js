@@ -1,4 +1,4 @@
-# Compass.js
+# Compass.js [![Build Status](https://travis-ci.org/ai/compass.js.svg)](https://travis-ci.org/ai/compass.js)
 
 Compass.js allows you to get compass heading in JavaScript.
 Today we haven’t any standard way to get compass data,
@@ -14,11 +14,12 @@ but there are two proprietary APIs and one hack:
 This library hides all this magic and APIs from you, autodetects available
 way and provides clean and simple API for your geolocation web app.
 
-Sponsored by [Evil Martians].
+<a href="https://evilmartians.com/?utm_source=compass.js">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
 
 [PhoneGap has]:  http://docs.phonegap.com/phonegap_compass_compass.md.html
 [Safari adds]:   http://developer.apple.com/library/safari/#documentation/SafariDOMAdditions/Reference/DeviceOrientationEventClassRef/DeviceOrientationEvent/DeviceOrientationEvent.html
-[Evil Martians]: http://evilmartians.com/
 
 ## Usage
 
